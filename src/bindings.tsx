@@ -26,7 +26,7 @@ const StateContext = React.createContext<Context>({
  * implementing middleware, we'll abstract
  * dispatch to add thunk support for free
  * TODO: in article, don't augment dispatch initially */
-const augmentDispatch = (dispatch: React.Dispatch<{}>, state: State) => // TODO: type actions
+const augmentDispatch = (dispatch: React.Dispatch<Action>, state: State) =>
   (action: Thunk | Action) =>
     action instanceof Function ? action(dispatch, state) : dispatch(action);
 
@@ -35,7 +35,10 @@ export const Provider: React.FC<ProviderProps> = ({ reducer, children }) => {
   const [state, dispatch] = React.useReducer(reducer, defaultState);
 
   return (
-    <StateContext.Provider value={{ state, dispatch: augmentDispatch(dispatch, state) }}>
+    <StateContext.Provider value={{
+      state,
+      dispatch: augmentDispatch(dispatch, state),
+    }}>
       {children}
     </StateContext.Provider>
   );
@@ -55,7 +58,7 @@ export const connect = <TStateProps, TDispatchProps = {}, TOwnProps = {}>(
             {...mapStateToProps(state, props)}
             {...(mapDispatchToProps
               ? mapDispatchToProps(dispatch, props)
-              : {} as TDispatchProps // TODO: avoid this type assertion
+              : {} as TDispatchProps
             )}
           />
         )}

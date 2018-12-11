@@ -2,7 +2,6 @@ import * as React from 'react';
 import { State } from '../state';
 import { connect } from '../bindings';
 
-// TODO: use types properly across codebase (inject StateProps into mSTP)
 type StateProps = Pick<State, 'messages'>;
 
 export const MessageList = ({ messages }: StateProps) => (
