@@ -54,9 +54,10 @@ export const MessageForm: React.FC<StateProps & DispatchProps> =
     );
   };
 
-const mapStateToProps = ({ isFormValid, hasQuoteError }: StateProps) => ({
+const mapStateToProps = ({ isFormValid, hasQuoteError, isLoadingQuote }: StateProps) => ({
   isFormValid,
   hasQuoteError,
+  isLoadingQuote,
 });
 
 const mapDispatchToProps = (dispatch: AugmentedDispatch) => ({
