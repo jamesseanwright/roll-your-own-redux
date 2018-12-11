@@ -9,8 +9,8 @@ interface AddMessagePayload {
 }
 
 export const ADD_MESSAGE = 'ADD_MESSAGE';
-export const SET_QUOTE_LOADING = 'ADD_MESSAGE';
-export const SET_QUOTE_ERROR = 'ADD_MESSAGE';
+export const SET_QUOTE_LOADING = 'SET_QUOTE_LOADING';
+export const SET_QUOTE_ERROR = 'SET_QUOTE_ERROR';
 
 const createActionTypeGuard = <TPayload>(type: string) =>
   (action: Action<{}>): action is Action<TPayload> =>

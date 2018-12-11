@@ -6,13 +6,16 @@ import { isAddMessage, Action, isSetQuoteLoading, isSetQuoteError } from '../act
 
 const rootReducer: React.Reducer<State, Action> = (state, action) => {
   if (isAddMessage(action)) {
+    const { message } = action.payload;
+
     return {
       ...state,
       isLoadingQuote: false,
       hasQuoteError: false,
+      isFormValid: !!message.length,
       messages: [
+        ...(message.length ? [message] : []),
         ...state.messages,
-        action.payload.message,
       ],
     };
   }
