@@ -1,0 +1,47 @@
+{
+  "name": "roll-your-own-redux",
+  "version": "0.0.1",
+  "description": "A proof-of-concept app demonstrating how one can implement Redux with React Hooks and the context API",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamesseanwright/roll-your-own-redux.git"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "hooks",
+    "context"
+  ],
+  "author": "James Wright <james@jamesswright.co.uk>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jamesseanwright/roll-your-own-redux/issues"
+  },
+  "homepage": "https://github.com/jamesseanwright/roll-your-own-redux#readme",
+  "dependencies": {
+    "react": "16.7.0-alpha.2",
+    "react-dom": "16.7.0-alpha.2"
+  },
+  "devDependencies": {
+    "@types/enzyme": "3.1.15",
+    "@types/jest": "23.3.10",
+    "@types/react": "16.7.13",
+    "@types/react-dom": "16.0.11",
+    "enzyme": "3.8.0",
+    "enzyme-adapter-react-16": "1.7.1",
+    "jest": "23.6.0",
+    "node-static": "0.7.11",
+    "rollup": "0.67.4",
+    "rollup-plugin-commonjs": "9.2.0",
+    "rollup-plugin-node-globals": "1.4.0",
+    "rollup-plugin-node-resolve": "4.0.0",
+    "rollup-plugin-typescript2": "0.18.1",
+    "ts-jest": "23.10.5",
+    "tslint": "5.11.0",
+    "typescript": "3.2.2"
+  }
+}
