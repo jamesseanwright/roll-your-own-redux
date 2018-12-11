@@ -1,6 +1,7 @@
+
 export interface Action<TPayload = {}> {
   type: string;
-  payload?: TPayload;
+  payload: TPayload;
 }
 
 interface AddMessagePayload {
@@ -19,12 +20,16 @@ export const isAddMessage = createActionTypeGuard<AddMessagePayload>(ADD_MESSAGE
 export const isSetQuoteLoading = createActionTypeGuard(SET_QUOTE_LOADING);
 export const isSetQuoteError = createActionTypeGuard(SET_QUOTE_ERROR);
 
+const defaultPayload = {};
+
 const setQuoteLoading = () => ({
   type: SET_QUOTE_LOADING,
+  payload: defaultPayload,
 });
 
 const setQuoteError = () => ({
   type: SET_QUOTE_ERROR,
+  payload: defaultPayload,
 });
 
 export const addMessage = (message: string) => ({

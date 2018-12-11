@@ -24,6 +24,8 @@ export default {
             'createElement',
             'useEffect',
             'useState',
+            'useReducer',
+            'createContext',
         ],
       },
     }),

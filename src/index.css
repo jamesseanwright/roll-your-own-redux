@@ -1,0 +1,28 @@
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 8px 16px;
+}
+
+*, input, button {
+  font-family: sans-serif;
+  box-sizing: content-box;
+}
+
+.form-input {
+  font-size: 1rem;
+  padding: 14px;
+  margin-right: 7px;
+}
+
+.form-button {
+  background: lightgreen;
+  border: 0;
+  padding: 16px 14px;
+}
+
+.form-button:disabled {
+  background: lightgrey;
+}

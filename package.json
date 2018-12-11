@@ -4,7 +4,10 @@
   "description": "A proof-of-concept app demonstrating how one can implement Redux with React Hooks and the context API",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "mkdir -p dist && rm -rf dist/* && cp src/index.html src/index.css dist && rollup -c",
+    "start": "static -H '{\"Cache-Control\": \"no-cache, must-revalidate\"}' dist",
+    "dev": "npm run build && npm start"
   },
   "repository": {
     "type": "git",

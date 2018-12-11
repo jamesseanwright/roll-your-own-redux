@@ -41,20 +41,21 @@ export const Provider: React.FC<ProviderProps> = ({ reducer, children }) => {
   );
 };
 
-export const connect = <TStateProps, TDispatchProps, TOwnProps = {}>(
+export const connect = <TStateProps, TDispatchProps = {}, TOwnProps = {}>(
   mapStateToProps: (state: State, ownProps: TOwnProps) => TStateProps,
   mapDispatchToProps?: (dispatch: AugmentedDispatch, ownProps: TOwnProps) => TDispatchProps,
   // For simplicity, we're omitting mergeProps for now
 ) =>
-  (Component: React.ComponentType<TStateProps & TDispatchProps>) =>
+  (Component: React.ComponentType<TStateProps & TDispatchProps & TOwnProps>) =>
     (props: TOwnProps) =>
       <StateContext.Consumer>
         {({ state, dispatch }) => (
           <Component
+            {...props}
             {...mapStateToProps(state, props)}
             {...(mapDispatchToProps
               ? mapDispatchToProps(dispatch, props)
-              : {}
+              : {} as TDispatchProps // TODO: avoid this type assertion
             )}
           />
         )}
