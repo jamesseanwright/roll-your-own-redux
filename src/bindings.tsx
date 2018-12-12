@@ -14,6 +14,7 @@ interface Context {
 
 export type Thunk = (dispatch: React.Dispatch<Action>, state: State) => Promise<{} | void> | void;
 export type AugmentedDispatch = React.Dispatch<Thunk | Action>;
+type MapTo<TArgA, TArgB, TResult> = (a: TArgA, b: TArgB) => TResult;
 
 const defaultDispatch = () => undefined;
 
@@ -44,6 +45,9 @@ export const Provider: React.FC<ProviderProps> = ({ reducer, children }) => {
   );
 };
 
+const withDefault = <TArgA, TArgB, TResult>(mapTo?: MapTo<TArgA, TArgB, TResult>): MapTo<TArgA, TArgB, TResult> =>
+  (a: TArgA, b: TArgB) => mapTo ? mapTo(a, b) : {} as TResult;
+
 export const connect = <TStateProps, TDispatchProps = {}, TOwnProps = {}>(
   mapStateToProps: (state: State, ownProps: TOwnProps) => TStateProps,
   mapDispatchToProps?: (dispatch: AugmentedDispatch, ownProps: TOwnProps) => TDispatchProps,
@@ -56,10 +60,7 @@ export const connect = <TStateProps, TDispatchProps = {}, TOwnProps = {}>(
           <Component
             {...props}
             {...mapStateToProps(state, props)}
-            {...(mapDispatchToProps
-              ? mapDispatchToProps(dispatch, props)
-              : {} as TDispatchProps
-            )}
+            {...withDefault(mapDispatchToProps)(dispatch, props)}
           />
         )}
       </StateContext.Consumer>;
