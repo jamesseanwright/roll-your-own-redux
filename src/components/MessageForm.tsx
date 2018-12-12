@@ -3,16 +3,16 @@ import { connect, AugmentedDispatch } from '../bindings';
 import { State } from '../state';
 import { addMessage, addRonSwansonQuote } from '../actions';
 
-type StateProps = Pick<State, 'isFormValid' | 'hasQuoteError' | 'isLoadingQuote'>;
+export type StateProps = Pick<State, 'isFormValid' | 'hasQuoteError' | 'isLoadingQuote'>;
 
-interface DispatchProps {
+export interface DispatchProps {
   addMessage(message: string): void;
   addRonSwansonQuote(): AugmentedDispatch;
 }
 
-export const MessageForm: React.FC<StateProps & DispatchProps> =
+export const createMessageForm = (useState = React.useState): React.FC<StateProps & DispatchProps> =>
   ({ isFormValid, hasQuoteError, isLoadingQuote, addMessage, addRonSwansonQuote }) => {
-    const [message, setMessage] = React.useState('');
+    const [message, setMessage] = useState('');
 
     return (
       <section>
@@ -68,4 +68,4 @@ const mapDispatchToProps = (dispatch: AugmentedDispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(MessageForm);
+)(createMessageForm());
