@@ -3,7 +3,7 @@ import { State, defaultState } from './state';
 import { Action } from './actions';
 
 interface ProviderProps {
-  defaultState: State;
+  defaultState: State; // TODO: mention intentional hard-coding of State type in post
   reducer: React.Reducer<State, Action>;
 }
 
@@ -31,7 +31,6 @@ const augmentDispatch = (dispatch: React.Dispatch<Action>, state: State) =>
   (action: Thunk | Action) =>
     action instanceof Function ? action(dispatch, state) : dispatch(action);
 
-// TODO: make StateContext injectable
 export const Provider: React.FC<ProviderProps> = ({ reducer, children }) => {
   const [state, dispatch] = React.useReducer(reducer, defaultState);
 
