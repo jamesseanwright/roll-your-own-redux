@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect, AugmentedDispatch } from '../bindings';
 import { State } from '../state';
-import { addMessage, addRonSwansonQuote } from '../actions';
+import { addMessage, addRonSwansonQuote } from '../actions/actions';
 
 export type StateProps = Pick<State, 'isFormValid' | 'hasQuoteError' | 'isLoadingQuote'>;
 

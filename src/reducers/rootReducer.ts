@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { State } from '../state';
-import { isAddMessage, Action, isSetQuoteLoading, isSetQuoteError } from '../actions';
+import { isAddMessage, Action, isSetQuoteLoading, isSetQuoteError } from '../actions/actions';
 
 const rootReducer: React.Reducer<State, Action> = (state, action) => {
   if (isAddMessage(action)) {

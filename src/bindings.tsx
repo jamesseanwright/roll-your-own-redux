@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { State, defaultState } from './state';
-import { Action } from './actions';
+import { Action } from './actions/actions';
 
 interface ProviderProps {
   defaultState: State; // TODO: mention intentional hard-coding of State type in post
@@ -28,8 +28,8 @@ const StateContext = React.createContext<Context>({
  * dispatch to add thunk support for free
  * TODO: in article, don't augment dispatch initially */
 const augmentDispatch = (dispatch: React.Dispatch<Action>, state: State) =>
-  (action: Thunk | Action) =>
-    action instanceof Function ? action(dispatch, state) : dispatch(action);
+  (input: Thunk | Action) =>
+    input instanceof Function ? input(dispatch, state) : dispatch(input);
 
 export const Provider: React.FC<ProviderProps> = ({ reducer, children }) => {
   const [state, dispatch] = React.useReducer(reducer, defaultState);

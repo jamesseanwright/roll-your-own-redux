@@ -1,5 +1,5 @@
 import rootReducer from '../rootReducer';
-import { addMessage, setQuoteLoading, setQuoteError } from '../../actions';
+import { addMessage, setQuoteLoading, setQuoteError } from '../../actions/actions';
 
 describe('root reducer', () => {
   it('should reset the loading and error properties and add a message if valid', () => {

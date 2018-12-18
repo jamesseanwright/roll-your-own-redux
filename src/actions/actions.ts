@@ -1,4 +1,3 @@
-
 export interface Action<TPayload = {}> {
   type: string;
   payload: TPayload;
@@ -39,7 +38,7 @@ export const addMessage = (message: string) => ({
   },
 });
 
-export const addRonSwansonQuote = () =>
+export const addRonSwansonQuote = (fetch = window.fetch) =>
   (dispatch: React.Dispatch<Action>) => {
     dispatch(setQuoteLoading());
 
