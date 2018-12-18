@@ -10,9 +10,9 @@ const rootReducer: React.Reducer<State, Action> = (state, action) => {
       ...state,
       isLoadingQuote: false,
       hasQuoteError: false,
-      isFormValid: !!message.length,
+      isFormValid: !!message,
       messages: [
-        ...(message.length ? [message] : []),
+        ...(message ? [message] : []),
         ...state.messages,
       ],
     };

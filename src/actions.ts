@@ -22,12 +22,12 @@ export const isSetQuoteError = createActionTypeGuard(SET_QUOTE_ERROR);
 
 const defaultPayload = {};
 
-const setQuoteLoading = () => ({
+export const setQuoteLoading = () => ({
   type: SET_QUOTE_LOADING,
   payload: defaultPayload,
 });
 
-const setQuoteError = () => ({
+export const setQuoteError = () => ({
   type: SET_QUOTE_ERROR,
   payload: defaultPayload,
 });
