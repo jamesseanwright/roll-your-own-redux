@@ -4,7 +4,7 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest"
   },
-  testRegex: "src\\/.*\\/__tests__\\/.*\\.test\\.tsx?$",
+  testRegex: "src(\/.*)?\/__tests__\/.*\.test\.tsx?$",
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   setupTestFrameworkScriptFile: './testSupport/setupEnzyme',
   globals: {
