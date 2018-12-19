@@ -3,10 +3,10 @@ import { mount } from 'enzyme';
 import { Provider, connect, Reducer } from '../bindings';
 import { Action } from '../actions/actions';
 import { State, defaultState } from '../state';
-import { DispatchProps } from '../components/MessageForm';
 
 interface OwnProps {
   baz: string;
+  onAsyncBazComplete?(): void;
 }
 
 interface StateProps {
@@ -15,11 +15,19 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setBaz(): void;
+  setBaz?(baz: boolean): void;
+  setBazAsync?(baz: boolean): (dispatch: React.Dispatch<Action>, state: State) => Promise<void>;
 }
 
-const MyComponent: React.FC<OwnProps> = ({ baz }) =>
-  <div>{baz}</div>;
+const bazNoOp = () => undefined;
+
+const createSetBazAction = (payload: boolean) => ({
+  type: 'SET_BAZ',
+  payload,
+});
+
+const MyComponent: React.FC<StateProps & DispatchProps & OwnProps> = ({ baz, setBaz, setBazAsync }) =>
+  <button onClick={() => (setBaz || setBazAsync || bazNoOp)(true)}>{baz}</button>;
 
 // TODO: explain why injecting useReducer
 describe('bindings', () => {
@@ -90,6 +98,90 @@ describe('bindings', () => {
       expect(renderedChild.prop('hasMessages')).toBe(true);
       expect(renderedChild.prop('hasBaz')).toBe(true);
       expect(renderedChild.prop('setBaz')).toBe(setBaz);
+    });
+
+    it('should invoke the dispatch when a dispatch prop is called', () => {
+      const reducer = (s: State, a: Action) => s;
+      const dispatch = jest.fn();
+      const useReducer = (r: Reducer, s: State) => [defaultState, dispatch] as [State, React.Dispatch<Action>];
+
+      const mapStateToProps = (state: State, ownProps: OwnProps): StateProps => ({
+        hasMessages: !!state.messages.length,
+        hasBaz: !!ownProps.baz,
+      });
+
+      const mapDispatchToProps = (dispatch: React.Dispatch<Action<boolean>>, ownProps: OwnProps): DispatchProps => ({
+        setBaz(baz) {
+          dispatch(createSetBazAction(baz));
+        },
+      });
+
+      const ConnectedComponent = connect<{}, DispatchProps, OwnProps>(
+        undefined,
+        mapDispatchToProps,
+      )(MyComponent);
+
+      const Root = () => (
+        <Provider
+          defaultState={defaultState}
+          reducer={reducer}
+          useReducer={useReducer}
+        >
+          <ConnectedComponent baz="qux" />
+        </Provider>
+      );
+
+      const renderedRoot = mount(<Root />);
+      const renderedChild = renderedRoot.find('button');
+
+      renderedChild.simulate('click');
+
+      expect(dispatch).toHaveBeenCalledTimes(1);
+
+      expect(dispatch).toHaveBeenCalledWith(createSetBazAction(true));
+    });
+
+    // TODO determine how to await thunk completion
+    it('should augment the passed dispatch to support thunks and Promises', async () => {
+      const reducer = (s: State, a: Action) => s;
+      const dispatch = jest.fn();
+      const useReducer = (r: Reducer, s: State) => [defaultState, dispatch] as [State, React.Dispatch<Action>];
+
+      const mapDispatchToProps = (): DispatchProps => ({
+        setBazAsync(nextBaz: boolean) {
+          return async (augmentedDispatch: React.Dispatch<Action>) => {
+            augmentedDispatch(createSetBazAction(false));
+            augmentedDispatch(createSetBazAction(nextBaz));
+          };
+        },
+      });
+
+      const ConnectedComponent = connect<{}, DispatchProps, OwnProps>(
+        undefined,
+        mapDispatchToProps,
+      )(MyComponent);
+
+      const Root = () => (
+        <Provider
+          defaultState={defaultState}
+          reducer={reducer}
+          useReducer={useReducer}
+        >
+          <ConnectedComponent baz="qux" />
+        </Provider>
+      );
+
+      const renderedRoot = mount(<Root />);
+      const renderedChild = renderedRoot.find('button');
+
+      renderedChild.simulate('click');
+
+      expect(dispatch).toHaveBeenCalledTimes(2);
+
+      expect(dispatch.mock.calls).toEqual([
+        [createSetBazAction(false)],
+        [createSetBazAction(true)],
+      ]);
     });
   });
 });
