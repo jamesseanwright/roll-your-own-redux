@@ -26,12 +26,13 @@ The bindings module (`bindings.tsx`) effectively reimplements React Redux (`reac
 
 ## Missing Features
 
-For simplicity's sake, this reimplementation takes a few liberties:
+For simplicity's sake, our implementation takes a few liberties:
 
 * The bindings are built around our own `State` type
-* Middleware is not supported; instead, [thunks](https://github.com/reduxjs/redux-thunk) are supported out of the box
-* `Provider` doesn't accept a store prop, instead taking a reducer directly
+* Middleware is not supported. Instead, [thunks](https://github.com/reduxjs/redux-thunk) are supported out of the box
+* `Provider` doesn't accept a store prop, instead taking a reducer function directly
 * `connect`'s `mergeProps` parameter is not implemented
+* Redux's `combineReducers` and React Redux's `connectAdvanced` are missing
 
 ## Running Locally
 
