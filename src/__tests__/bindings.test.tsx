@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import { Provider, connect, Reducer } from '../bindings';
+import { Provider, connect, Reducer, AugmentedDispatch } from '../bindings';
 import { Action } from '../actions/actions';
 import { State, defaultState } from '../state';
 
@@ -16,7 +16,7 @@ interface StateProps {
 
 interface DispatchProps {
   setBaz?(baz: boolean): void;
-  setBazAsync?(baz: boolean): (dispatch: React.Dispatch<Action>, state: State) => Promise<void>;
+  setBazAsync?(baz: boolean): void;
 }
 
 const bazNoOp = () => undefined;
@@ -137,22 +137,23 @@ describe('bindings', () => {
       renderedChild.simulate('click');
 
       expect(dispatch).toHaveBeenCalledTimes(1);
-
       expect(dispatch).toHaveBeenCalledWith(createSetBazAction(true));
     });
 
-    // TODO determine how to await thunk completion
-    it('should augment the passed dispatch to support thunks and Promises', async () => {
+    it('should augment the passed dispatch to support thunks', () => {
       const reducer = (s: State, a: Action) => s;
       const dispatch = jest.fn();
       const useReducer = (r: Reducer, s: State) => [defaultState, dispatch] as [State, React.Dispatch<Action>];
 
-      const mapDispatchToProps = (): DispatchProps => ({
-        setBazAsync(nextBaz: boolean) {
-          return async (augmentedDispatch: React.Dispatch<Action>) => {
-            augmentedDispatch(createSetBazAction(false));
-            augmentedDispatch(createSetBazAction(nextBaz));
-          };
+      const setBazAsync = (baz: boolean) =>
+        (innerDispatch: React.Dispatch<Action>, state: State) => {
+          innerDispatch(createSetBazAction(state.hasQuoteError));
+          innerDispatch(createSetBazAction(baz));
+        };
+
+      const mapDispatchToProps = (dispatch: AugmentedDispatch): DispatchProps => ({
+        setBazAsync: (baz: boolean) => {
+          dispatch(setBazAsync(baz));
         },
       });
 

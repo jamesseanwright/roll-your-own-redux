@@ -15,7 +15,7 @@ interface Context {
   dispatch: React.Dispatch<Action>;
 }
 
-export type Thunk = (dispatch: React.Dispatch<Action>, state: State) => Promise<{} | void> | void;
+export type Thunk = (dispatch: React.Dispatch<Action>, state: State) => void;
 export type AugmentedDispatch = React.Dispatch<Thunk | Action>;
 type MapTo<TArgA, TArgB, TResult> = (a: TArgA, b: TArgB) => TResult;
 
