@@ -29,7 +29,10 @@ const createSetBazAction = (payload: boolean) => ({
 const MyComponent: React.FC<StateProps & DispatchProps & OwnProps> = ({ baz, setBaz, setBazAsync }) =>
   <button onClick={() => (setBaz || setBazAsync || bazNoOp)(true)}>{baz}</button>;
 
-// TODO: explain why injecting useReducer
+/* Despite React.useReducer being an implementation detail,
+ * hooks are not currently supported by react-test-renderer,
+ * thus we have to inject a stub for now. TODO: remove stub
+ * and useReducer prop when test renderer supports hooks */
 describe('bindings', () => {
   describe('Provider with connect', () => {
     it('should pass any outer props to the connected component', () => {

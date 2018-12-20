@@ -37,7 +37,7 @@ const augmentDispatch = (dispatch: React.Dispatch<Action>, state: State) =>
 export const Provider: React.FC<ProviderProps> = ({
   reducer,
   children,
-  useReducer = React.useReducer, // Because react-test-renderer doesn't support hooks... yet
+  useReducer = React.useReducer, // TODO: mention in final "Testing" section
 }) => {
   const [state, dispatch] = useReducer(reducer, defaultState);
 
