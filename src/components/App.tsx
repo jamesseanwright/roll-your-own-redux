@@ -9,8 +9,8 @@ import rootReducer from '../reducers/rootReducer';
 export default () => (
   <Provider
     defaultState={defaultState}
-    reducer={rootReducer
-  }>
+    reducer={rootReducer}
+  >
     <Status />
     <MessageForm />
     <MessageList />
