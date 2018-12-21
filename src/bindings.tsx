@@ -59,7 +59,7 @@ export const connect = <TStateProps, TDispatchProps, TOwnProps = {}>(
   mapDispatchToProps?: (dispatch: AugmentedDispatch, ownProps: TOwnProps) => TDispatchProps,
   // For simplicity, we're omitting mergeProps for now
 ) =>
-  (Component: React.ComponentType<TStateProps & TDispatchProps & TOwnProps>) =>
+  (Component: React.ComponentType<TStateProps & TDispatchProps & TOwnProps>) => (
     (props: TOwnProps) =>
       <StateContext.Consumer>
         {({ state, dispatch }) => (
@@ -69,4 +69,5 @@ export const connect = <TStateProps, TDispatchProps, TOwnProps = {}>(
             {...withDefault(mapDispatchToProps)(dispatch, props)}
           />
         )}
-      </StateContext.Consumer>;
+      </StateContext.Consumer>
+  );
