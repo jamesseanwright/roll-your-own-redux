@@ -37,7 +37,7 @@ const augmentDispatch = (dispatch: React.Dispatch<Action>, state: State) =>
 export const Provider: React.FC<ProviderProps> = ({
   reducer,
   children,
-  useReducer = React.useReducer, // TODO: mention in final "Testing" section
+  useReducer = React.useReducer, // TODO: remove when RTR/Enzyme support hooks
 }) => {
   const [state, dispatch] = useReducer(reducer, defaultState);
 
