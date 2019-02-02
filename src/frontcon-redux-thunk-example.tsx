@@ -1,6 +1,6 @@
 // tslint:disable:no-console
 
-import { Action, createStore, applyMiddleware, Dispatch, Store } from 'redux';
+import { Action, createStore, applyMiddleware, Dispatch } from 'redux';
 import { Provider, connect } from 'react-redux';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -23,7 +23,7 @@ const isActionOfType = <TAction extends Action, TFoo = {}>(action: Action, type:
   action.type === type;
 
 const setMessage = (message: string) => ({
-  type: 'REQUEST_FAILURE',
+  type: 'SET_MESSAGE',
   message,
 });
 
@@ -81,15 +81,6 @@ const store = createStore(
   reducer,
   applyMiddleware<ThunkDispatch<{}, {}, Action>, State>(reduxThunk),
 );
-
-store.subscribe(() => {
-  console.log('Message changed to', store.getState().message);
-});
-
-store.dispatch({
-  type: 'SET_MESSAGE',
-  message: 'Hello FrontCon!',
-});
 
 store.dispatch(fetchMessage());
 
