@@ -30,9 +30,10 @@ const MyComponent: React.FC<StateProps & DispatchProps & OwnProps> = ({ baz, set
   <button onClick={() => (setBaz || setBazAsync || bazNoOp)(true)}>{baz}</button>;
 
 /* Despite React.useReducer being an implementation detail,
- * hooks are not currently supported by react-test-renderer,
- * thus we have to inject a stub for now. TODO: remove stub
- * and useReducer prop when test renderer supports hooks */
+ * React-Test-Renderer and Enzyme don't have full Hook support,
+ * thus I'm injecting stubs and placing assertions upon them.
+ * TODO: remove stubs and query props for updates when
+ * /airbnb/enzyme/pull/2041 is merged and released. */
 describe('bindings', () => {
   describe('Provider with connect', () => {
     it('should pass any outer props to the connected component', () => {
